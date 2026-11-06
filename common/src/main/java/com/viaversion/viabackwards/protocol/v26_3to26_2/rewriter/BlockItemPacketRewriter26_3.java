@@ -478,11 +478,13 @@ public final class BlockItemPacketRewriter26_3 extends BackwardsStructuredItemRe
             final CompoundTag customTag = dataContainer.get(StructuredDataKey.CUSTOM_DATA);
             if (customTag.contains(nbtTagName("added_custom_name")) && dataContainer.get(StructuredDataKey.ITEM_NAME) instanceof CompoundTag itemName) {
                 final String key = itemName.getString("translate");
-                final String englishName = TranslatableMappings.translatablesFor(protocol).get(key);
-                if (englishName != null) {
-                    final CompoundTag customName = (CompoundTag) dataContainer.get(StructuredDataKey.CUSTOM_NAME);
-                    customName.putString("translate", "vb.item." + key.substring("filled_map.".length()));
-                    customName.putString("fallback", "26.3 " + englishName);
+                if (key != null && key.startsWith("filled_map.")) {
+                    final String englishName = TranslatableMappings.translatablesFor(protocol).get(key);
+                    if (englishName != null) {
+                        final CompoundTag customName = (CompoundTag) dataContainer.get(StructuredDataKey.CUSTOM_NAME);
+                        customName.putString("translate", "vb.item." + key.substring("filled_map.".length()));
+                        customName.putString("fallback", "26.3 " + englishName);
+                    }
                 }
             }
         }
